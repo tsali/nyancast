@@ -1,12 +1,12 @@
 ##############################################################################
 
- Description: sm0l script to cast NyanCat to all Chromecasts on a LAN
-
+ Description: sm0l script to cast NyanCat to all Chromecasts on a LAN 
  Author: Tsali - A network engineer of boredom     
  Date: 2020/09/03                              
  Twitter: @tsali                               
  Instagram: red_hens                           
  OnlyFans: Tsali                               
+ Twitch: TsaliJames				
  Facebook: TsaliJames                          
  Website: cultofjames.org                      
 
