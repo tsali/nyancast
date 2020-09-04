@@ -1,0 +1,96 @@
+#!/bin/bash
+#
+#################################################
+# By: Tsali - A network engineer of boredom	#
+# Purpose: Simple scipt to get the IP's of all 	#
+# Chromecasts on the same LAN and send an audio #
+# file to them since you can attack anything	#
+# with an MP3, MP4's only work on actual	#
+# Chromecasts and not nests/minis etc..		#
+#						#
+# Date: 2020/09/03				#
+# Twitter: @tsali				#
+# Instagram: red_hens				#
+# OnlyFans: Tsali				#
+# Facebook: TsaliJames				#
+# Website: cultofjames.org			#
+#################################################
+
+# The name of the chromecasts file
+chromecasts=$PWD/chromecasts.txt
+
+# The song I chose - Nyan Cat Dubstep
+mp3=~/music/NyanCatDubStep.mp3
+
+# Update and check for necessary tools to make this work
+sudo apt update -y
+
+# Check for ffpmeg
+dpkg -s ffmpeg &> /dev/null
+
+if [ $? -ne 0 ]
+        then
+                echo "ffmpeg is not installed, fixing"
+        sudo apt-get install ffmpeg -y
+        else
+                echo "ffmpeg is installed, continuing"
+fi
+
+# Check for python3
+dpkg -s python3 &> /dev/null
+
+if [ $? -ne 0 ]
+	then
+		echo "python3 is not installed, fixing"
+	sudo apt-get install python3 -y 
+	else
+		echo "python3 is installed, continuing"
+fi
+
+# Check for Pip3
+dpkg -s python3-pip &> /dev/null
+
+if [ $? -ne 0 ]
+        then
+                echo "python3-pip is not installed, fixing"
+        sudo apt-get install python3-pip -y
+        else
+                echo "python3-pip is installed, continuing"
+fi
+
+# Check for parallel
+dpkg -s parallel &> /dev/null
+
+if [ $? -ne 0 ]
+
+        then
+                echo "parallel is not installed, fixing"
+        sudo apt-get install parallel -y
+        else
+                echo "parallel is installed, continuing"
+fi
+
+# Check for Cast All The Things
+pip3 list | grep -F catt | awk '{print $1}' &> /dev/null
+
+if [ $? -ne 0 ]
+        then
+                echo "catt is not installed, fixing"
+	sudo pip3 install catt
+        else
+                echo "catt is installed, continuing"
+fi
+
+# Make music directory and download the audio file, leaving commented out because I already have it
+# This could easily be changed to whatever you want to download, obviously
+#mkdir ~/music
+#youtube-dl -x --audio-format mp3 -o "~/music/NyanCatDubStep.%(ext)s" https://www.youtube.com/watch?v=BeGjTiUqw8U
+
+# Get IP's for all chromcast capable devices on network and export to a txt file
+catt scan | awk 'FNR == 1 {next}{print $1}' > chromecasts.txt
+
+# Set volume to 11 (100 really but ya know?) Send Nyan Cat to all chromecasts
+echo "Found the following chromecast IPs, sending "$mp3" to them now, enjoy"
+cat $chromecasts
+parallel -a $chromecasts catt -d {} volume 100
+parallel -a $chromecasts catt -d {} cast $mp3
