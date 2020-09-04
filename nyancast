@@ -82,10 +82,10 @@ if [ $? -ne 0 ]
                 echo "catt is installed, continuing"
 fi
 
-# Make music directory and download the audio file, leaving commented out because I already have it
+# Make music directory and download the audio file
 # This could easily be changed to whatever you want to download, obviously
-#mkdir ~/music
-#youtube-dl -x --audio-format mp3 -o "~/music/NyanCatDubStep.%(ext)s" https://www.youtube.com/watch?v=BeGjTiUqw8U
+mkdir ~/music
+youtube-dl -x --audio-format mp3 -o "~/music/NyanCatDubStep.%(ext)s" https://www.youtube.com/watch?v=BeGjTiUqw8U
 
 # Get IP's for all chromcast capable devices on network and export to a txt file
 catt scan | awk 'FNR == 1 {next}{print $1}' > chromecasts.txt
