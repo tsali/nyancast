@@ -71,6 +71,18 @@ if [ $? -ne 0 ]
                 echo "parallel is installed, continuing"
 fi
 
+# Check for youtube-dl
+dpkg -s youtube-dl &> /dev/null
+
+if [ $? -ne 0 ]
+
+        then
+                echo "youtube-dl is not installed, fixing"
+        sudo apt-get install youtube-dl -y
+        else
+                echo "youtube-dl is installed, continuing"
+fi
+
 # Check for Cast All The Things
 pip3 list | grep -F catt | awk '{print $1}' &> /dev/null
 
