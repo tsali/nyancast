@@ -71,16 +71,16 @@ if [ $? -ne 0 ]
                 echo "parallel is installed, continuing"
 fi
 
-# Check for youtube-dl
-dpkg -s youtube-dl &> /dev/null
+# Check for yt-dlp
+dpkg -s yt-dlp &> /dev/null
 
 if [ $? -ne 0 ]
 
         then
-                echo "youtube-dl is not installed, fixing"
-        sudo apt-get install youtube-dl -y
+                echo "yt-dlp is not installed, fixing"
+        sudo apt-get install yt-dlp -y
         else
-                echo "youtube-dl is installed, continuing"
+                echo "yt-dlp is installed, continuing"
 fi
 
 # Check for Cast All The Things
@@ -97,7 +97,7 @@ fi
 # Make music directory and download the audio file
 # This could easily be changed to whatever you want to download, obviously
 mkdir ~/music
-youtube-dl -x --audio-format mp3 -o "~/music/NyanCatDubStep.%(ext)s" https://www.youtube.com/watch?v=BeGjTiUqw8U
+yt-dlp -x --audio-format mp3 -o "~/music/NyanCatDubStep.%(ext)s" https://www.youtube.com/watch?v=BeGjTiUqw8U
 
 # Get IP's for all chromcast capable devices on network and export to a txt file
 catt scan | awk 'FNR == 1 {next}{print $1}' > chromecasts.txt
